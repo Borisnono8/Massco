@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Espace collaborateur – MASSCO</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+
+      :root{
+          --blue:#1B75BC;
+          --blue-dark:#0A0E1A;
+          --green:#4FB3E8;
+          --whatsapp:#25D366;
+          --gray:#F5F7FA;
+          --gray-text:#58595B;
+          --danger:#D64545;
+      }
+
+      *{
+          margin:0;
+          padding:0;
+          box-sizing:border-box;
+          font-family:Segoe UI,Arial,sans-serif;
+      }
+
+      body{
+          background:var(--gray);
+          color:var(--blue-dark);
+          min-height:100vh;
+      }
+
+      .topbar{
+          background:white;
+          padding:15px 25px;
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          box-shadow:0 3px 10px rgba(0,0,0,0.08);
+      }
+
+      .topbar-logo{
+          display:flex;
+          align-items:center;
+          gap:10px;
+          font-weight:900;
+          font-size:18px;
+      }
+
+      .topbar-logo img{
+          width:34px;
+      }
+
+      .btn{
+          padding:10px 20px;
+          border:none;
+          border-radius:8px;
+          font-weight:600;
+          cursor:pointer;
+          font-size:14px;
+      }
+
+      .btn-primary{
+          background:var(--blue);
+          color:white;
+      }
+
+      .btn-primary:hover{
+          filter:brightness(1.1);
+      }
+
+      .btn-danger{
+          background:var(--danger);
+          color:white;
+      }
+
+      .btn-outline{
+          background:transparent;
+          border:2px solid var(--blue-dark);
+          color:var(--blue-dark);
+      }
+
+      /* LOGIN */
+
+      .login-wrap{
+          min-height:calc(100vh - 70px);
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          padding:20px;
+      }
+
+      .login-card{
+          background:white;
+          padding:40px;
+          border-radius:16px;
+          box-shadow:0 15px 40px rgba(10,14,26,0.12);
+          width:100%;
+          max-width:380px;
+          text-align:center;
+      }
+
+      .login-card img{
+          width:70px;
+          margin-bottom:15px;
+      }
+
+      .login-card h2{
+          font-size:20px;
+          margin-bottom:5px;
+      }
+
+      .login-card p.sub{
+          color:var(--gray-text);
+          font-size:13px;
+          margin-bottom:25px;
+      }
+
+      .field{
+          text-align:left;
+          margin-bottom:16px;
+      }
+
+      .field label{
+          display:block;
+          font-size:13px;
+          font-weight:600;
+          margin-bottom:6px;
+      }
+
+      .field input,
+      .field textarea{
+          width:100%;
+          padding:11px 14px;
+          border:1px solid #ddd;
+          border-radius:8px;
+          font-size:14px;
+          font-family:inherit;
+      }
+
+      .field textarea{
+          resize:vertical;
+          min-height:90px;
+      }
+
+      .login-card .btn-primary{
+          width:100%;
+          padding:13px;
+          margin-top:5px;
+      }
+
+      .error-msg{
+          color:var(--danger);
+          font-size:13px;
+          margin-top:12px;
+          display:none;
+      }
+
+      /* ADMIN PANEL */
+
+      .admin-wrap{
+          display:none;
+          max-width:950px;
+          margin:0 auto;
+          padding:40px 20px 80px;
+      }
+
+      .admin-wrap.active{
+          display:block;
+      }
+
+      .panel{
+          background:white;
+          border-radius:14px;
+          padding:30px;
+          box-shadow:0 8px 20px rgba(10,14,26,0.06);
+          margin-bottom:30px;
+      }
+
+      .panel h2{
+          font-size:20px;
+          margin-bottom:5px;
+      }
+
+      .panel p.sub{
+          color:var(--gray-text);
+          font-size:13px;
+          margin-bottom:25px;
+      }
+
+      .status-msg{
+          margin-top:15px;
+          font-size:14px;
+          padding:10px 14px;
+          border-radius:8px;
+          display:none;
+      }
+
+      .status-msg.success{
+          background:#E7F7EF;
+          color:#1B7A43;
+          display:block;
+      }
+
+      .status-msg.error{
+          background:#FCEAEA;
+          color:var(--danger);
+          display:block;
+      }
+
+      .status-msg.loading{
+          background:var(--gray);
+          color:var(--gray-text);
+          display:block;
+      }
+
+      .existing-list{
+          display:flex;
+          flex-direction:column;
+          gap:14px;
+      }
+
+      .existing-item{
+          display:flex;
+          align-items:center;
+          gap:15px;
+          border:1px solid #eee;
+          border-radius:10px;
+          padding:12px;
+      }
+
+      .existing-item img{
+          width:70px;
+          height:55px;
+          object-fit:cover;
+          border-radius:6px;
+          flex-shrink:0;
+      }
+
+      .existing-item .info{
+          flex:1;
+      }
+
+      .existing-item .info h4{
+          font-size:14px;
+          margin-bottom:3px;
+      }
+
+      .existing-item .info span{
+          font-size:12px;
+          color:var(--gray-text);
+      }
+
+      .empty-note{
+          color:var(--gray-text);
+          font-size:14px;
+      }
+
+  </style>
+
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="logo.png" alt="MASSCO">
+    <span>Espace collaborateur</span>
+  </div>
+  <button class="btn btn-outline" id="logoutBtn" style="display:none">Déconnexion</button>
+</div>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-card">
+    <img src="logo.png" alt="MASSCO">
+    <h2>Connexion</h2>
+    <p class="sub">Réservé aux membres autorisés de MASSCO</p>
+
+    <div class="field">
+      <label>Adresse e-mail</label>
+      <input type="email" id="loginEmail" placeholder="vous@massaconstruction.cm">
+    </div>
+    <div class="field">
+      <label>Mot de passe</label>
+      <input type="password" id="loginPassword" placeholder="••••••••">
+    </div>
+    <button class="btn btn-primary" id="loginBtn">Se connecter</button>
+    <p class="error-msg" id="loginError">Adresse e-mail ou mot de passe incorrect.</p>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div class="admin-wrap" id="adminWrap">
+
+  <div class="panel">
+    <h2>Publier une annonce</h2>
+    <p class="sub">Elle apparaîtra immédiatement sur le site, dans la section « Annonces ».</p>
+
+    <div class="field">
+      <label>Titre de l'annonce</label>
+      <input type="text" id="formTitle" placeholder="Ex : Terrain à bâtir – Odza">
+    </div>
+    <div class="field">
+      <label>Prix (optionnel)</label>
+      <input type="text" id="formPrice" placeholder="Ex : 15 000 000 FCFA ou « Prix sur demande »">
+    </div>
+    <div class="field">
+      <label>Description</label>
+      <textarea id="formDescription" placeholder="Décrivez le bien ou le produit..."></textarea>
+    </div>
+    <div class="field">
+      <label>Photos (plusieurs possibles)</label>
+      <input type="file" id="formImages" accept="image/*" multiple>
+    </div>
+
+    <button class="btn btn-primary" id="publishBtn">Publier l'annonce</button>
+    <div class="status-msg" id="publishStatus"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Annonces publiées</h2>
+    <p class="sub">Cliquez sur « Supprimer » pour retirer une annonce du site.</p>
+    <div class="existing-list" id="existingList">
+      <p class="empty-note">Chargement...</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="firebase-config.js"></script>
+
+<script>
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+const loginWrap = document.getElementById("loginWrap");
+const adminWrap = document.getElementById("adminWrap");
+const logoutBtn = document.getElementById("logoutBtn");
+const loginError = document.getElementById("loginError");
+
+/* ===== CONNEXION ===== */
+document.getElementById("loginBtn").addEventListener("click", ()=>{
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    loginError.style.display = "none";
+
+    auth.signInWithEmailAndPassword(email, password)
+        .catch(()=>{
+            loginError.style.display = "block";
+        });
+});
+
+logoutBtn.addEventListener("click", ()=> auth.signOut());
+
+auth.onAuthStateChanged(user=>{
+    if(user){
+        loginWrap.style.display = "none";
+        adminWrap.classList.add("active");
+        logoutBtn.style.display = "inline-block";
+        loadExistingAnnonces();
+    }else{
+        loginWrap.style.display = "flex";
+        adminWrap.classList.remove("active");
+        logoutBtn.style.display = "none";
+    }
+});
+
+/* ===== PUBLICATION D'UNE ANNONCE ===== */
+const publishBtn = document.getElementById("publishBtn");
+const publishStatus = document.getElementById("publishStatus");
+
+function setStatus(type, message){
+    publishStatus.className = "status-msg " + type;
+    publishStatus.textContent = message;
+}
+
+publishBtn.addEventListener("click", async ()=>{
+    const title = document.getElementById("formTitle").value.trim();
+    const price = document.getElementById("formPrice").value.trim();
+    const description = document.getElementById("formDescription").value.trim();
+    const files = document.getElementById("formImages").files;
+
+    if(!title){
+        setStatus("error", "Merci d'indiquer un titre pour l'annonce.");
+        return;
+    }
+
+    publishBtn.disabled = true;
+    setStatus("loading", "Publication en cours, veuillez patienter...");
+
+    try{
+        const docRef = db.collection("annonces").doc();
+        const imageUrls = [];
+
+        for(let i=0; i<files.length; i++){
+            const file = files[i];
+            const path = `annonces/${docRef.id}/${Date.now()}_${file.name}`;
+            const snapshot = await storage.ref(path).put(file);
+            const url = await snapshot.ref.getDownloadURL();
+            imageUrls.push(url);
+            setStatus("loading", `Envoi des photos... (${i+1}/${files.length})`);
+        }
+
+        await docRef.set({
+            title,
+            price: price || "Prix sur demande",
+            description,
+            images: imageUrls,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        setStatus("success", "Annonce publiée avec succès ✔");
+        document.getElementById("formTitle").value = "";
+        document.getElementById("formPrice").value = "";
+        document.getElementById("formDescription").value = "";
+        document.getElementById("formImages").value = "";
+
+    }catch(err){
+        console.error(err);
+        setStatus("error", "Une erreur est survenue. Vérifiez votre connexion et réessayez.");
+    }finally{
+        publishBtn.disabled = false;
+    }
+});
+
+/* ===== LISTE / SUPPRESSION DES ANNONCES ===== */
+function loadExistingAnnonces(){
+    const list = document.getElementById("existingList");
+
+    db.collection("annonces").orderBy("createdAt","desc")
+        .onSnapshot(snapshot=>{
+            if(snapshot.empty){
+                list.innerHTML = "<p class='empty-note'>Aucune annonce publiée pour le moment.</p>";
+                return;
+            }
+            list.innerHTML = "";
+            snapshot.forEach(doc=>{
+                const annonce = doc.data();
+                const thumb = (annonce.images && annonce.images[0]) ? annonce.images[0] : "logo.png";
+                const item = document.createElement("div");
+                item.className = "existing-item";
+                item.innerHTML = `
+                    <img src="${thumb}" alt="${annonce.title}">
+                    <div class="info">
+                        <h4>${annonce.title}</h4>
+                        <span>${annonce.price || ""}</span>
+                    </div>
+                    <button class="btn btn-danger" data-id="${doc.id}">Supprimer</button>
+                `;
+                item.querySelector("button").addEventListener("click", ()=>{
+                    if(confirm(`Supprimer l'annonce "${annonce.title}" ?`)){
+                        db.collection("annonces").doc(doc.id).delete();
+                    }
+                });
+                list.appendChild(item);
+            });
+        });
+}
+
+</script>
+
+</body>
+</html>
